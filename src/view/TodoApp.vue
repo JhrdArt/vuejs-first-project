@@ -1,15 +1,12 @@
-<script >
-    import { ref } from 'vue'
-    import TasksLists from './TasksLists.vue'
-    import SearchComponent from './SearchComponent.vue'
+<script setup>
+import Header from '@/components/layout/header/Header.vue';
+import TodoList from '@/components/layout/todolist/TodoList.vue';
 </script>
 <template>
-    <div>
-
-        <SearchComponent />
-        <TasksLists />
+    <div class=" w-screen m-auto max-h-screen space-y-4">
+        <Header />
+        <TodoList />
     </div>
+</template>
 
-    </template>
-
-    <style></style
+<style scoped></style>

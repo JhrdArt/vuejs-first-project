@@ -1,6 +1,7 @@
 <script setup>
 import Button from '@/components/common/Button.vue';
 import { useTaskStore } from '@/store/useTasksStore';
+import { ref } from 'vue';
 
 const taskStore = useTaskStore()
 
@@ -15,9 +16,27 @@ const toggleTaskStatus = (taskId) => {
     taskStore.toggleTaskStatus(taskId)
 }
 
+const refInputValue = ref(null)
+
 const deleteCurrentTask = (taskId) => {
     taskStore.removeTask(taskId)
     console.log("🚀 ~ file: TasksLists.vue:26 ~ deleteCurrentTask ~ taskId:", taskId)
+}
+
+const editTitle = (taskId) => {
+    if (!taskId) return
+    const input = document.querySelector(`#input-task-${taskId}`)
+    console.log("🚀 ~ editTitle ~ input:", input)
+    if (input) {
+        input.removeAttribute('readonly');
+        input.focus();
+        input.addEventListener('blur', () => {
+            input.setAttribute('readonly', 'true');
+
+            taskStore.updateTask(taskId, input.value);
+            taskStore.saveToLocalStorage()
+        });
+    }
 }
 
 </script>
@@ -31,8 +50,9 @@ const deleteCurrentTask = (taskId) => {
         </div>
         <ul v-else class="">
             <li v-for="task in props.filteredTasks" :key="task.id"
-                class="flex gap-2 items-center dark:hover:bg-stone-500 p-2 rounded-md duration-300">
-                <input type="checkbox" :id="'task-1' + task.id" v-model="task.completed" class="hidden">
+                class="grid grid-cols-[16px_1fr_auto] gap-2 items-center dark:hover:bg-stone-500 p-2 rounded-md duration-300 w-full">
+                <!-- checkbox -->
+                <input type="checkbox" :id="'task-' + task.id" v-model="task.completed" class="hidden">
                 <div @click="() => toggleTaskStatus(task.id)" class="w-4 h-4 hover:bg-white bg-stone-50 rounded flex">
                     <svg v-if="task.completed" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"
@@ -40,13 +60,15 @@ const deleteCurrentTask = (taskId) => {
                         <polyline points="20 6 9 17 4 12"></polyline>
                     </svg>
                 </div>
-                <label :class="task.completed ? 'line-through' : ''" :for="'task-' + task.id">{{ task.title
-                    }}</label>
-                <div class="ml-auto space-x-2">
-                    <Button variant="primary">
-                        🖊
+                <!-- input task -->
+                <input :class="task.completed ? 'line-through' : ''" class="outline-none" :id="'input-task-' + task.id"
+                    v-bind:value="task.title" readonly />
+                <!-- actions -->
+                <div class="ml-auto space-x-1 flex">
+                    <Button @click="() => editTitle(task.id)" variant="primary" size="sm">
+                        ✏
                     </Button>
-                    <Button @click="() => deleteCurrentTask(task.id)" variant="destructive">
+                    <Button @click="() => deleteCurrentTask(task.id)" variant="destructive" size="sm">
                         X
                     </Button>
                 </div>

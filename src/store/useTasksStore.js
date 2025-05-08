@@ -83,6 +83,9 @@ export const useTaskStore = defineStore('tasks', {
       } finally {
         this.isLoading = false
       }
+    },
+    taskFindById (taskId) {
+      return this.tasks.find(task => task.id === taskId)
     }
   }
 })

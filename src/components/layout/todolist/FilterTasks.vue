@@ -8,7 +8,7 @@ defineProps({
     }
 })
 const emit = defineEmits(["update:currentFilter"]);
-
+const taskStore = useTaskStore();
 const setFilter = (filter) => {
     console.log("filter", filter)
     emit("update:currentFilter", filter)
@@ -27,6 +27,9 @@ console.log("🚀 ~ setFilter ~ setFilter:", setFilter)
         </Button>
         <Button @click="() => setFilter('all')" variant="primary" size="sm">
             Todas
+        </Button>
+        <Button @click="() => taskStore.deleteAllTasks()" variant="destructive" size="sm">
+            Vaciar 🗑
         </Button>
     </div>
 </template>

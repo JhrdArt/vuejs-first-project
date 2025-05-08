@@ -51,12 +51,14 @@ export const useTaskStore = defineStore('tasks', {
       }
     },
     deleteAllTasks () {
-      return (this.tasks = [])
+      this.tasks = []
+      this.saveToLocalStorage()
     },
     updateTask (taskId, newTitle) {
       const task = this.tasks.find(t => t.id === taskId)
       if (task) {
         task.title = newTitle
+        this.saveToLocalStorage()
       }
     },
     saveToLocalStorage () {

@@ -31,7 +31,7 @@ const updateFilter = (newFilter) => {
 
 <template>
     <div :class="stylesComponents.container" class="p-4!">
-        <div :class="stylesComponents.divContainer" class="hover:shadow-md border border-stone-400">
+        <div :class="stylesComponents.divContainer" class="hover:shadow-md border border-stone-400 w-full md:w-128">
             <h1 class="text-3xl uppercase mb-5">Crear tarea</h1>
             <InputForAddTask />
             <FilterTasks @update:current-filter="updateFilter" :currentFilter="currentFilter" />

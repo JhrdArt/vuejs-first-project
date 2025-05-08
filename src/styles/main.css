@@ -3,4 +3,9 @@
 
 @theme {
     --color-primary: #000;
+    /* width */
+    --width-100: 400px;
+    --width-104: 416px;
+    --width-116: 464px;
+    --width-128: 512px;
 }
